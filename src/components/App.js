@@ -1,10 +1,10 @@
-import React from "react";
-import Header from "./Header";
-import Inventory from "./Inventory";
-import Order from "./Order";
-import "../css/style.css";
-import fishes from "../sample-fishes";
-import Fish from "./Fish";
+import React from 'react';
+import Header from './Header';
+import Inventory from './Inventory';
+import Order from './Order';
+import '../css/style.css';
+import fishes from '../sample-fishes';
+import Fish from './Fish';
 
 class App extends React.Component {
   state = {
@@ -23,7 +23,7 @@ class App extends React.Component {
   };
 
   addToOrder = key => {
-    console.log("adding fish");
+    console.log('adding fish');
     const order = { ...this.state.order };
     order[key] = order[key] + 1 || 1;
     this.setState({ order });
@@ -45,7 +45,7 @@ class App extends React.Component {
             ))}
           </ul>
         </div>
-        <Order fishes={this.state.fishes} />
+        <Order fishes={this.state.fishes} order={this.state.order} />
         <Inventory
           addFish={this.addFish}
           loadSampleFishes={this.loadSampleFishes}
