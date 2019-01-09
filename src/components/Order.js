@@ -3,7 +3,7 @@ import AddFishForm from "./AddFishForm";
 
 class Order extends React.Component {
   render() {
-    return <div className="order">Your Order!</div>;
+    return <div className="order">Order</div>;
   }
 }
 
