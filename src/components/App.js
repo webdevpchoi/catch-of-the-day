@@ -1,16 +1,38 @@
-import React from 'react';
-import Header from './Header';
-import Inventory from './Inventory';
-import Order from './Order';
-import '../css/style.css';
-import fishes from '../sample-fishes';
-import Fish from './Fish';
+import React from "react";
+import Header from "./Header";
+import Inventory from "./Inventory";
+import Order from "./Order";
+import "../css/style.css";
+import fishes from "../sample-fishes";
+import Fish from "./Fish";
+import base from "../base";
 
 class App extends React.Component {
   state = {
     fishes: {},
     order: {}
   };
+
+  componentDidMount() {
+    const { params } = this.props.match;
+    const localStorageRef = localStorage.getItem(params.storeid);
+    if (localStorageRef) {
+      this.setState({ order: JSON.parse(localStorageRef) });
+    }
+    this.ref = base.syncState(`${params.storeid}/fishes`, {
+      context: this,
+      state: "fishes"
+    });
+  }
+
+  componentDidUpdate() {
+    const { params } = this.props.match;
+    localStorage.setItem(params.storeid, JSON.stringify(this.state.order));
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
+  }
 
   addFish = fish => {
     const fishes = { ...this.state.fishes };
@@ -23,7 +45,7 @@ class App extends React.Component {
   };
 
   addToOrder = key => {
-    console.log('adding fish');
+    console.log("adding fish");
     const order = { ...this.state.order };
     order[key] = order[key] + 1 || 1;
     this.setState({ order });

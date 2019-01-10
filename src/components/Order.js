@@ -1,18 +1,20 @@
-import React from 'react';
-import AddFishForm from './AddFishForm';
-import { formatPrice } from '../helpers';
-import { isAbsolute } from 'path';
+import React from "react";
+import AddFishForm from "./AddFishForm";
+import { formatPrice } from "../helpers";
+import { isAbsolute } from "path";
 
 class Order extends React.Component {
   renderOrder = key => {
     const fish = this.props.fishes[key];
     const count = this.props.order[key];
-    const isAvailable = fish.status === 'available';
+    const isAvailable = fish && fish.status === "available";
+
+    if (!fish) return null;
 
     if (!isAvailable) {
       return (
         <li key={key}>
-          Sorry {fish ? fish.name : 'fish'} is no longer available.
+          Sorry {fish ? fish.name : "fish"} is no longer available.
         </li>
       );
     }
@@ -29,7 +31,7 @@ class Order extends React.Component {
     const total = orderIds.reduce((prevTotal, key) => {
       const fish = this.props.fishes[key];
       const count = this.props.order[key];
-      const isAvailable = fish && fish.status === 'available';
+      const isAvailable = fish && fish.status === "available";
 
       if (isAvailable) {
         return prevTotal + count * fish.price;
